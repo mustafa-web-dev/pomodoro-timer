@@ -15,7 +15,8 @@
     "@nuxtjs/tailwindcss": "^6.10.1",
     "@pinia/nuxt": "^0.5.1",
     "daisyui": "^4.4.20",
-    "nuxt": "^3.7.0"
+    "nuxt": "^3.7.0",
+    "nuxt-vercel-analytics": "^1.0.0"
   },
   "dependencies": {
     "@vercel/analytics": "^1.1.1"
