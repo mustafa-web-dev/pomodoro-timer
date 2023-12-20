@@ -16,5 +16,8 @@
     "@pinia/nuxt": "^0.5.1",
     "daisyui": "^4.4.20",
     "nuxt": "^3.7.0"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.1.1"
   }
 }

@@ -46,6 +46,9 @@
   
 <script setup>
 import { CgCoffee, BsPauseFill, BsPlayFill, PhBrain, CaReset } from "@kalimahapps/vue-icons";
+import { inject } from '@vercel/analytics';
+ 
+inject();
 
 const indicator = ref('Focus')
 const started = ref(false)
