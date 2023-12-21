@@ -23,6 +23,10 @@
 
       <!-- Controls -->
       <div class="flex justify-center items-center space-x-2 mt-4">
+        <button type="button" @click="reset"
+          :class="[indicator === 'Focus' ? 'bg-red-200 hover:bg-red-300 text-red-800' : 'bg-green-200 hover:bg-green-300 text-green-800', 'btn border-none rounded-2xl']">
+          <CaReset class="h-8 w-8" />
+        </button>
         <button type="button" v-if="!started" @click="start"
           :class="[indicator === 'Focus' ? 'bg-red-300 hover:bg-red-400 text-red-900' : 'bg-green-300 hover:bg-green-400 text-green-900', 'btn btn-lg border-none rounded-3xl']">
           <BsPlayFill class="h-8 w-8" />
@@ -33,9 +37,9 @@
           <BsPauseFill v-if="!paused" class="h-8 w-8" />
           <BsPlayFill v-else class="h-8 w-8" />
         </button>
-        <button type="button" @click="reset"
+        <button type="button" @click="forward"
           :class="[indicator === 'Focus' ? 'bg-red-200 hover:bg-red-300 text-red-800' : 'bg-green-200 hover:bg-green-300 text-green-800', 'btn border-none rounded-2xl']">
-          <CaReset class="h-8 w-8" />
+          <HiSolidForward class="h-8 w-8" />
         </button>
       </div>
 
@@ -45,7 +49,7 @@
 </template>
   
 <script setup>
-import { CgCoffee, BsPauseFill, BsPlayFill, PhBrain, CaReset } from "@kalimahapps/vue-icons";
+import { CgCoffee, BsPauseFill, BsPlayFill, PhBrain, CaReset, HiSolidForward } from "@kalimahapps/vue-icons";
 
 const indicator = ref('Focus')
 const started = ref(false)
@@ -103,50 +107,62 @@ const reset = () => {
   sessions.value = 0
 }
 
+const forward = () => {
+  if (indicator.value === 'Focus') {
+    indicator.value = 'Short Break'
+    minutes.value = breakTime.value
+  } else {
+    indicator.value = 'Focus'
+    minutes.value = workTime.value
+   }
+   seconds.value = 0
+   paused.value = true
+}
+
 // Watcher for 'indicator' and 'sessions' changes
-watch([indicator, sessions], async () => {
-  try {
-    // Simulate syncing progress with the backend
-    const response = await syncProgressWithBackend();
-  } catch (error) {
-    console.error('Error syncing progress:', error);
-  }
-});
+// watch([indicator, sessions], async () => {
+//   try {
+//     // Simulate syncing progress with the backend
+//     const response = await syncProgressWithBackend();
+//   } catch (error) {
+//     console.error('Error syncing progress:', error);
+//   }
+// });
 
 // Simulated backend sync function
-const syncProgressWithBackend = async () => {
-  const progressData = {
-    sessions: sessions.value,
-    indicator: indicator.value,
-  };
+// const syncProgressWithBackend = async () => {
+//   const progressData = {
+//     sessions: sessions.value,
+//     indicator: indicator.value,
+//   };
 
-  try {
-    // Simulated backend endpoint
-    const response = await fetch('/backend-endpoint', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(progressData),
-    });
+//   try {
+//     // Simulated backend endpoint
+//     const response = await fetch('/backend-endpoint', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(progressData),
+//     });
 
-    if (response.ok) {
-      const responseData = await response.json();
-      console.log(responseData);
-    } else {
-      throw new Error('error');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
+//     if (response.ok) {
+//       const responseData = await response.json();
+//       console.log(responseData);
+//     } else {
+//       throw new Error('error');
+//     }
+//   } catch (error) {
+//     console.error('Error:', error);
+//   }
+// };
 
-// Watchers for 'sessions' and 'indicator'
-watch(sessions, () => {
-  syncProgressWithBackend();
-});
+// // Watchers for 'sessions' and 'indicator'
+// watch(sessions, () => {
+//   syncProgressWithBackend();
+// });
 
-watch(indicator, () => {
-  syncProgressWithBackend();
-});
+// watch(indicator, () => {
+//   syncProgressWithBackend();
+// });
 </script>
